@@ -41,7 +41,8 @@
     --speed:70s;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html,body{background:var(--bg);overscroll-behavior:none;overflow:hidden;height:100%}
+  html,body{background:var(--bg)}
+  body{overflow-x:hidden}
   body{
     color:var(--text);
     font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -52,9 +53,9 @@
   .stage{
     position:relative;overflow:hidden;
     width:100%;
-    /* deliberately taller than the screen: whatever Safari's toolbar covers,
-       there is always fire underneath it */
-    height:calc(100vh + 120px);height:calc(100lvh + 120px);
+    /* plain in-flow block, large viewport tall: no fixed elements anywhere,
+       so iOS 26 Safari lets it run under its glass toolbar */
+    height:100vh;height:100lvh;
   }
   /* content stays centred in the visible (small) viewport */
   .content{
@@ -98,7 +99,7 @@
   .w{display:inline-block;position:relative}
   .w + .w{margin-left:.35em}
   .l{display:inline-block}
-  #fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:5}
+  #fx{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:5}
   .item.hide .w,.item.hide::after{visibility:hidden}
   .fire{
     position:absolute;top:0;bottom:0;          /* inside .stage, reaches the very bottom */
@@ -125,8 +126,8 @@
         <div class="track" id="track"></div>
       </div>
     </div>
+    <canvas id="fx" aria-hidden="true"></canvas>
   </div>
-  <canvas id="fx" aria-hidden="true"></canvas>
 
 <script>
   const phrase = "NEW SEASON 2027 (COMING SOON)";
@@ -170,8 +171,11 @@
   const fx = document.getElementById('fx');
   const fctx = fx.getContext('2d');
   const DPR = Math.min(devicePixelRatio || 1, 2);
+  let FXW = 0, FXH = 0, fxTop = 0, fxLeft = 0;
   const sizeFx = () => {
-    fx.width = innerWidth * DPR; fx.height = innerHeight * DPR;
+    const r = fx.getBoundingClientRect();
+    FXW = r.width; FXH = r.height;
+    fx.width = FXW * DPR; fx.height = FXH * DPR;
     fctx.setTransform(DPR, 0, 0, DPR, 0, 0);
   };
   sizeFx(); addEventListener('resize', sizeFx);
@@ -224,14 +228,16 @@
   let running = false;
   const loop = () => { if (!running) { running = true; requestAnimationFrame(draw); } };
   const draw = now => {
-    fctx.clearRect(0, 0, innerWidth, innerHeight);
+    const fr = fx.getBoundingClientRect(); fxTop = fr.top; fxLeft = fr.left;
+    fctx.clearRect(0, 0, FXW, FXH);
     active.forEach(item => {
       const { px, block, w, h } = item._px;
       const p = item._dir === 1
         ? Math.min((now - item._t) / IN, 1)
         : Math.max(1 - (now - item._t) / OUT, 0);
       item._p = p;
-      const r = item.getBoundingClientRect();     // follows the scroll
+      const ir = item.getBoundingClientRect();     // follows the scroll
+      const r = { left: ir.left - fxLeft, top: ir.top - fxTop };
       const cx = r.left + w / 2, cy = r.top + h / 2;
 
       fctx.fillStyle = RED;
@@ -259,7 +265,7 @@
       if (item._dir === -1 && p === 0) { item.classList.remove('hide'); active.delete(item); }
     });
     if (active.size) requestAnimationFrame(draw);
-    else { running = false; fctx.clearRect(0, 0, innerWidth, innerHeight); }
+    else { running = false; fctx.clearRect(0, 0, FXW, FXH); }
   };
 
   // Desktop: implode on hover, rebuild on leave
@@ -286,7 +292,7 @@
     const canvases = [...document.querySelectorAll('.fire')];
     const ctxs = canvases.map(c => c.getContext('2d'));
     const dpr = 0.35;                       // low-res on purpose: soft + fast
-    const OVER = 120;                       // matches the extra 120px on .stage
+    const OVER = 0;
     let W = 0, H = 0, parts = [];
     const size = () => {
       const r = canvases[0].getBoundingClientRect();
@@ -303,7 +309,7 @@
       return {
         ember,
         x: edge * W * 0.85,
-        y: H - rand(0, OVER + 20),
+        y: H - rand(0, 30),
         vx: rand(-0.3, 0.4),
         vy: -(ember ? rand(4, 7) : rand(3, 6.5)) * ((H - OVER) / 900 + 0.25),
         r: ember ? rand(2, 4) : rand(45, 95) * scale * (1 - edge * 0.5),
