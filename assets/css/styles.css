@@ -10,7 +10,7 @@
 }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
-html, body { margin: 0; background: var(--void); color: var(--smoke); font-family: var(--text); }
+html, body { margin: 0; background: var(--board); color: var(--smoke); font-family: var(--text); }
 body { overflow-x: hidden; }
 body.locked { overflow: hidden; }
 .wrap { max-width: 1280px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
@@ -29,7 +29,7 @@ a { color: inherit; }
 .cta i { width: 8px; height: 8px; background: var(--alarm); transform: rotate(45deg); box-shadow: 0 0 8px var(--alarm); animation: blink 1.4s steps(2, jump-none) infinite; }
 
 /* Menu screen */
-.menu-screen { position: fixed; inset: 0; z-index: 50; background: var(--void); display: flex; flex-direction: column; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.menu-screen { position: fixed; inset: 0; z-index: 50; background: var(--board); display: flex; flex-direction: column; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
 .menu-screen .wrap { width: 100%; flex: 1; display: flex; flex-direction: column; }
 .menu-top { display: flex; justify-content: space-between; align-items: center; padding-block: 14px; }
 .close { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 14px; background: transparent; border: 1px solid var(--line); border-radius: 3px; color: var(--smoke); font: 500 14px var(--text); cursor: pointer; }
@@ -70,7 +70,7 @@ a { color: inherit; }
 .social.is-off:hover { border-color: var(--line-lit); }
 .social.is-off:hover img { filter: invert(93%); }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.social::before, .social::after { content: ""; position: absolute; width: 6px; height: 6px; background: var(--void); border: 1px solid var(--line-lit); transform: rotate(45deg); }
+.social::before, .social::after { content: ""; position: absolute; width: 6px; height: 6px; background: var(--board); border: 1px solid var(--line-lit); transform: rotate(45deg); }
 .social::before { top: -4px; left: -4px; }
 .social::after { bottom: -4px; right: -4px; }
 .social:hover { border-color: var(--smoke); }

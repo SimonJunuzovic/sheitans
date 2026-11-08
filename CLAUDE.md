@@ -41,7 +41,7 @@ Push to the branch GitHub Pages serves from. Keep `CNAME` and `.nojekyll` at the
 **Direction:** Neon Sigil. Dark, sharp, mischievous, never cute and never mocking the person.
 
 **Colors** (tokens in `:root` of `styles.css`):
-- Void `#050507` page background, Board `#08080C`, Panel `#0D0D12`
+- Board `#08080C` page background everywhere (header, wall, footer, menu screen, theme-color, manifest), Void `#050507` only for dark text on light buttons, the tagline's cut-out outline and the Coming soon button, Panel `#0D0D12` for boxes
 - Smoke `#EDEDF2` text, Muted `#9A9AA8` secondary text
 - Line `#2A2A35`, Line lit `#4A4A5A` for thin frame lines
 - Ash `#EDEDF2` resting demons (drawn at 30% opacity)
