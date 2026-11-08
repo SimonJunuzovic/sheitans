@@ -66,6 +66,10 @@ a { color: inherit; }
 .social { position: relative; width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid var(--line-lit); border-radius: 3px; color: var(--smoke); text-decoration: none; }
 .social img { display: block; width: 22px; height: 22px; filter: invert(93%); }
 .social:hover img { filter: invert(100%); }
+.social.is-off { opacity: 0.35; cursor: default; }
+.social.is-off:hover { border-color: var(--line-lit); }
+.social.is-off:hover img { filter: invert(93%); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .social::before, .social::after { content: ""; position: absolute; width: 6px; height: 6px; background: var(--void); border: 1px solid var(--line-lit); transform: rotate(45deg); }
 .social::before { top: -4px; left: -4px; }
 .social::after { bottom: -4px; right: -4px; }

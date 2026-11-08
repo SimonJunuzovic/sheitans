@@ -80,6 +80,6 @@ The burger opens a full-screen "Nothing hidden here." screen with Close (also Es
 ## To do
 
 - Privacy policy, Terms and conditions, Cookie policy and Safety: drafts exist but are deliberately not in this repo. The footer shows their names as plain text (`.unlinked`), not links. Publish them only after the company details are filled in and a lawyer has reviewed them, then turn the footer items back into links.
-- Social links: real profile URLs for Instagram, TikTok, Facebook, Snapchat and X (all `#` for now)
+- Social links: Instagram (@sheitansapp) and TikTok (@sheitansapp) are live. Facebook, Snapchat and X show as dimmed, non-clickable icons (`.social.is-off`) until their profiles exist; turn each into a link like the others when it does.
 - Real Log in and launch CTA
 - An `/install` page if the "Save as an app" steps move out of the menu screen
